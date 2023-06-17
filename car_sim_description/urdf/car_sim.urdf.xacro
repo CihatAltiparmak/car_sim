@@ -18,16 +18,20 @@
   <xacro:arg name="robot_name" default="" />
   <xacro:arg name="blue" default="false" />
 
+  <!-- velodyne lidar -->
+  <xacro:arg name="gpu" default="false"/>
+  <xacro:property name="gpu" value="$(arg gpu)" />
+  <xacro:arg name="organize_cloud" default="false"/>
+  <xacro:property name="organize_cloud" value="$(arg organize_cloud)" />
+  <xacro:include filename="$(find velodyne_description)/urdf/VLP-16.urdf.xacro"/>
+  <xacro:VLP-16 parent="base_link" name="velodyne">
+    <origin xyz="0 0 1" rpy="0 0 0" />
+  </xacro:VLP-16>
+
   <gazebo>
     <!-- Simulated vehicle interface -->
-    <!-- <plugin name="car_plugin" filename="libcar_plugin.so" >
-      <robot_name>$(arg robot_name)</robot_name>
-      <pub_tf>$(arg pub_tf)</pub_tf>
-      <tf_freq>100.0</tf_freq>
-      <ros>
-        <namespace>$(arg robot_name)</namespace>
-      </ros>
-    </plugin> -->
+    <plugin name="jarbay_plugin" filename="libjarbay_plugin.so" >
+    </plugin> 
 
     <!-- Publish current joint angles -->
     <plugin name="joint_state_publisher" filename="libgazebo_ros_joint_state_publisher.so">
@@ -161,7 +165,12 @@
   <xacro:front_wheel name="fl" x="${half_wheelbase}" y="${half_front_track_width}" z="0" flip="1" />
   <xacro:front_wheel name="fr" x="${half_wheelbase}" y="${-half_front_track_width}" z="0" flip="0" />
 
-  <xacro:property name="wheel_friction" value="1.75" />
+  <xacro:property name="wheel_friction_static" value="0.9" />
+  <xacro:property name="wheel_friction_dynamic" value="0.9" />
+  <xacro:property name="wheel_kp" value="1e8" />
+  <xacro:property name="wheel_kd" value="0.0" />
+  <xacro:property name="wheel_ki" value="0.0" />
+
 
   <gazebo reference="base_link" >
     <mu1>0.5</mu1>
@@ -169,22 +178,22 @@
   </gazebo>
 
   <gazebo reference="wheel_fl" >
-    <mu1>${wheel_friction}</mu1>
-    <mu2>${wheel_friction}</mu2>
+    <mu1>1.75</mu1>
+    <mu2>1.75</mu2>
   </gazebo>
 
   <gazebo reference="wheel_fr" >
-    <mu1>${wheel_friction}</mu1>
-    <mu2>${wheel_friction}</mu2>
+    <mu1>1.75</mu1>
+    <mu2>1.75</mu2>
   </gazebo>
 
   <gazebo reference="wheel_rl" >
-    <mu1>${wheel_friction}</mu1>
-    <mu2>${wheel_friction}</mu2>
+    <mu1>1.75</mu1>
+    <mu2>1.75</mu2>
   </gazebo>
 
   <gazebo reference="wheel_rr" >
-    <mu1>${wheel_friction}</mu1>
-    <mu2>${wheel_friction}</mu2>
+    <mu1>1.75</mu1>
+    <mu2>1.75</mu2>
   </gazebo>
 </robot>

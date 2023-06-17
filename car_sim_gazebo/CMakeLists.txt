@@ -24,7 +24,7 @@ find_package(gazebo_msgs REQUIRED)
 find_package(tf2_ros REQUIRED)
 find_package(nav_msgs REQUIRED)
 find_package(geometry_msgs REQUIRED)
-find_package(example_interfaces REQUIRED)
+find_package(ackermann_msgs REQUIRED)
 # uncomment the following section in order to fill in
 # further dependencies manually.
 # find_package(<dependency> REQUIRED)
@@ -32,29 +32,29 @@ find_package(example_interfaces REQUIRED)
 link_directories(${GAZEBO_LIBRARY_DIRS})
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${GAZEBO_CXX_FLAGS}")
 
-add_library(car_plugin SHARED
-  src/car_plugin.cpp
+add_library(jarbay_plugin SHARED
+  src/jarbay_plugin.cpp
 )
-ament_target_dependencies(car_plugin
+ament_target_dependencies(jarbay_plugin
   rclcpp
   gazebo_ros
   tf2_ros
   nav_msgs
   geometry_msgs
-  example_interfaces
+  ackermann_msgs
 )
-target_include_directories(car_plugin PUBLIC
+target_include_directories(jarbay_plugin PUBLIC
   include
   $<INSTALL_INTERFACE:include>
 )
-target_link_libraries(car_plugin
+target_link_libraries(jarbay_plugin
   ${GAZEBO_LIBRARIES}
 )
 
 ### Install Rules
 install(
   TARGETS
-    car_plugin
+    jarbay_plugin
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION bin
