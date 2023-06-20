@@ -7,10 +7,17 @@ from launch.launch_description_sources import PythonLaunchDescriptionSource
 
 
 def generate_launch_description():
+
+    gazebo_world_path = os.path.join(get_package_share_directory('car_sim_gazebo'), 'worlds', 'jarbay.world')
+    gazebo_options_dict = dict(
+        world = gazebo_world_path
+    )
+
     gazebo_simulator = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([
             os.path.join(get_package_share_directory('gazebo_ros'), 'launch', 'gazebo.launch.py')
-        ])
+        ]),
+        launch_arguments=gazebo_options_dict.items()
     )
 
     car_sim_options = dict(

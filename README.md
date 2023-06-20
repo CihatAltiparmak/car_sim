@@ -24,7 +24,7 @@ $ source install/setup.bash
 Firstly, run launch file
 
 ```shell
-ros2 launch car_sim_gazebo world.launch
+$ ros2 launch car_sim_gazebo world.launch.py extra_gazebo_args:="--verbose" gpu:=true
 ```
 
 In another shell, you can control velocity and steering angle of the car by publishing AckermannDriveStamped ros2 message. 
@@ -32,7 +32,7 @@ In another shell, you can control velocity and steering angle of the car by publ
 **Warning: Steering angle is in radyan type, not in degree.** 
 
 ```shell
-ros2 topic pub --once /itusct/command_cmd ackermann_msgs/msg/AckermannDriveStamped "header:
+$ ros2 topic pub --once /itusct/command_cmd ackermann_msgs/msg/AckermannDriveStamped "header:
   stamp:
     sec: 0
     nanosec: 0
@@ -44,6 +44,28 @@ drive:
   acceleration: 0.0
   jerk: 0.0"
 ```
+
+![gazebo_world](docs/ss/gazebo_world.png)
+
+## Control By Keyboard
+
+Run executable file in car_sim_gazebo
+
+```shell
+$ ros2 run car_sim_gazebo teleop_keyboard.py
+```
+
+After running `teleop_keyboard.py`, you can control the car with keys `w`, `a`, `s`, `d`, `x`. Inspired by [teleop_twist_keyboard](https://github.com/ros-teleop/teleop_twist_keyboard/blob/master/teleop_twist_keyboard.py) ros package.
+
+`w` -> increases the car's speed.
+
+`x` -> decreases the car's speed. (if speed of the car is negative, car start to go backward.)
+
+`a` -> increases the car's steering angle
+
+`d` -> decreases the car's steering angle
+
+`s` -> stops the car and zeros the car's steering angle
 
 ## Useful Links
 
